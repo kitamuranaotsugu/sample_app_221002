@@ -1,0 +1,26 @@
+<h1>投稿一覧</h1>
+
+<div class="list-wrap">
+<% @lists.each do |list| %>
+<!--listsテーブルにある全データを持ってきて、eachメソッドでそれぞれのレコードに対して以下の処理を行います。その際のブロック変数はlistとします。-->
+
+  <div class="list-box">
+    <% if list.image.attached? %>
+      <%= image_tag list.image, size: "200x200" %>
+    <% else %>
+      <%= image_tag 'no_image', size: "200x200" %>
+    <% end %>
+
+    <div class="list-comment">
+      <span class="list-body"><%= list.body %></span>
+
+      <span class="list-title"><%=link_to list.title, list_path(list.id) %></span>
+<!--→ 各レコードのtitleカラムに保存されている内容を表示します。-->
+<!--link_to メソッドは、-->
+<%#= link_to 表示させるテキスト（第１引数） , リンク先URL（第２引数） [,オプション]（メソッドの指定などの第３引数） %>
+<!--の形で記述する方法と、do ~ end 文で記述する方法があります。-->
+<!--urlについて、実際に"/lists/#{list.id}"のように、"#{変数(整数型、文字列型を問わない)}" を利用してurlを直接記述する方法と、list_path(list.id)のようにrails routesからパスを指定することで記述する方法があります-->
+    </div>
+  </div>
+<% end %>
+</div>

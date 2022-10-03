@@ -1,0 +1,29 @@
+<h1>編集画面</h1>
+<% if @list.errors.any? %>
+  <%= @list.errors.count %>件のエラーが発生しました
+<!--errorsメソッドにより、モデルにかけたバリデーションを元に生じたエラーの中身を確認出来るようになります。ターミナル上ではvalidatesメソッドによってrollback（登録失敗）が表示されるが、なぜ失敗かは明示されない-->
+<!--errorsメソッドに更にany?メソッドによりbinding.pryを記述して確認するとtrueが帰ってくる。-->
+  <ul>
+    <% @list.errors.full_messages.each do |message| %>
+<!--errorが起こっていることは分かるが、具体的なエラー内容をユーザーに知らせるためにはスクリプトレット（＝付き）でerror.full_messagesメソッドを用いる必要がある。eachメソッドで各カラムのメッセージを表示させる-->
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @list do |f| %>
+<%#= form_with model: @list, url: list_path(@list.id), method: :patch do |f| %>
+<!--今回、カリキュラムとは異なりupdate_list_pathではなく、resourcesに基づくroutingの通り、list_path([:id])となり、urlおよびmethodの指定はform_withモデルが渡されたモデルインスタンスから自動で判断するため不要。-->
+
+  <h4>タイトル</h4>
+  <%= f.text_field :title %>
+
+  <h4>本文</h4>
+  <%= f.text_area :body %>
+
+  <h4>画像</h4>
+  <%= f.file_field :image, accept: "image/*" %>
+
+  <%= f.submit '保存' %>
+
+<% end %>
